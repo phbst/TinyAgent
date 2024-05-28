@@ -15,7 +15,7 @@ class BaseModel:
             self.model= ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
             
     
-    def chat(self, prompt: str, history: List[dict]):
+    def chat(self,query:str, prompt_template: str='', history:List=[]):
         pass
 
     def load_model(self):
@@ -27,8 +27,7 @@ class OpenAIModel(BaseModel):
 
     def chat(self,query:str, prompt_template: str='', history:List=[]):
 
-        message=prompt_template+f'\n\n{query}'
-        message=HumanMessage(content=message)
-
+        message=prompt_template+f'\nQuestion: {query}'
+        # message=HumanMessage(content=message)
         res=self.model.invoke(message)
-        return res
+        return res.content

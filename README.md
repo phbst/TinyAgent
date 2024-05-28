@@ -24,7 +24,11 @@ tinyAgent
 └─ test.ipynb
 
 ```
-
+## 你需要的资源
+```bash
+Google Search key(https://serper.dev/dashboard)
+OpenAI API KEY
+```
 
 
 
