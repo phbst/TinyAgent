@@ -7,7 +7,7 @@ class Tools:
         self.tools_config=[
             {
                 'chinese_name':'谷歌搜索',
-                'english_name':'google_serach',
+                'english_name':'google_search',
                 'description':'谷歌搜索是一个通用搜索引擎，可用于访问互联网、查询百科知识、了解时事新闻等。',
                 'parameters':[
                     {
@@ -25,18 +25,18 @@ class Tools:
     def get_func(self):
         return self.tools_config
     
-    def google_serach(self,query:str):
+    def google_search(self,search_query:str):
         url = "https://google.serper.dev/search"
 
         payload = json.dumps({
-        "q": query
+        "q":search_query
         })
         headers = {
         'X-API-KEY': self.api,
         'Content-Type': 'application/json'
         }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
+        response = requests.request("POST", url, headers=headers, data=payload).json()
         return  response['organic'][0]['snippet']
 
 

@@ -60,16 +60,20 @@ class Agent:
             if k<0:
                 text.strip()+'\nObservation:'
             k = text.rfind('\nObservation:')
-            func_name=text[i+len('\nAction:'):j]
-            func_args=text[j+len('\nAction Input:'):k]
-            text=text[:k] 
+            func_name=text[i+len('\nAction:'):j].strip()
+            func_args=text[j+len('\nAction Input:'):k].strip()
+            text=text[:k].strip()
 
         return func_name,func_args,text
     
     def call_plugin(self, func_name, func_args):
+        
         func_args = json5.loads(func_args)
-        if func_name == 'google_search':
+
+        if func_name=="google_search":
+
             return '\nObservation:' + self.tools.google_search(**func_args)
+            
         
     def chat_by_func(self,text,history=[]):
         res_model_1=self.llm.chat(text,self.template_prompt)
@@ -78,6 +82,4 @@ class Agent:
             res_func=self.call_plugin(func_name, func_args)
             res_model_2=text+res_func
         result=self.llm.chat(res_model_2,self.template_prompt)
-        return res_model_1+"\n-----------------------------\n" +res_model_2+"\n----------------------------\n"+result
-
-
+        return result
