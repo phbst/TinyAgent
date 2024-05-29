@@ -274,7 +274,7 @@ demo.launch()
 ```
 
 ## result
-[image](./static/image.png)
+![image](./static/image.png)
 
 ## 论文参考
 
