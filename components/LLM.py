@@ -26,8 +26,10 @@ class OpenAIModel(BaseModel):
         super().__init__(path)
 
     def chat(self,query:str, prompt_template: str='', history:List=[]):
-
-        message=prompt_template+f'\nQuestion: {query}'
+        message=[]
+        message.append(HumanMessage(content=prompt_template))
+        message.append(HumanMessage(content=query))
+        # message=prompt_template+f'\nQuestion: {query}'
         # message=HumanMessage(content=message)
         res=self.model.invoke(message)
         return res.content

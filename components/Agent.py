@@ -4,6 +4,8 @@ import json5
 from components.LLM import OpenAIModel
 from components.Tools import Tools
 
+# from LLM import OpenAIModel
+# from Tools import Tools
 
 
 
@@ -75,11 +77,27 @@ class Agent:
             return '\nObservation:' + self.tools.google_search(**func_args)
             
         
-    def chat_by_func(self,text,history=[]):
-        res_model_1=self.llm.chat(text,self.template_prompt)
+    def chat_by_func(self,query,history=[]):
+        res_model_1=self.llm.chat(query,self.template_prompt)
         func_name,func_args,text=self.select_func_call(res_model_1)
         if func_name:
             res_func=self.call_plugin(func_name, func_args)
             res_model_2=text+res_func
         result=self.llm.chat(res_model_2,self.template_prompt)
-        return result
+
+        show='第一次模型交互：\n'+text+'\n\n'+f'执行{func_name}的结果：\n'+res_func+'\n\n'+'第二次交互：\n'+res_model_2+'\n\n'+'最终结果：\n'+result
+
+        return  show
+
+
+# test=Agent()
+# a=test.llm.chat('你认识phb吗',test.template_prompt)
+# print(a,'\n____________________')
+# b,c,d=test.select_func_call(a)
+# print(b,c,d,sep='\n')
+# e=test.call_plugin(b,c)
+# print(e,'\n____________________')
+# f=d+e
+# print(f,'\n____________________')
+# g=test.llm.chat(f,test.template_prompt)
+# print(g,'\n____________________')
